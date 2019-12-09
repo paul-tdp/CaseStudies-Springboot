@@ -25,7 +25,7 @@ pipeline {
       stage('Staging') {
 		when {
 			expression {
-				env.BRANCH_NAME == 'developer'
+				env.BRANCH_NAME == 'Developer'
 			}
 		}
             steps {
