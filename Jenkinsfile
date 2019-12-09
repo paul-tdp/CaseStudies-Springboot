@@ -1,47 +1,53 @@
 pipeline {
     agent any
-
+environment {
+    VERSION = readMavenPom().getVersion()
+}
     stages {
-        stage('Test') {
-            steps {
-                    echo "testing"
-                }
-            }
+	stage('test') {
+	    steps {
+		echo "no junit or intergration tests"
+	    }
+	}
         stage('Build') {
             steps {
-                echo "building"
-                }
+		    sh 'mvn package -DskipTests'
+		    sh 'docker build -t="case-studies-docker/case-studies:${VERSION}" .'
             }
+        }
         stage('Deploy') {
             steps {
-                echo "hello"
+                    sh 'docker push case-studies-docker/case-studies:${VERSION}'
             }
         }
-          stage('Testing Environment') {
+        stage('Testing Environment') {
             steps {
-                    echo "testing environment"
+                echo "API Tests not found"
             }
         }
-      stage('Staging') {
-		when {
-			expression {
-				env.BRANCH_NAME == 'Developer'
-			}
-		}
+        stage('Staging') {
+          when{
+              expression{
+              env.BRANCH_NAME=='staging'
+              }
+          }
             steps {
-                echo "staging if in Developer branch"
+                sh 'docker-compose pull'
+                sh 'PROFILE=staging docker-compose up -d'
+                sh 'mvn test -Dtest=SeleniumSuite'
             }
         }
-      stage('Production') {
-	when {
-		expression {
-			env.BRANCH_NAME == 'master'
-		}
-	}
+        stage('Production') {
+            when{
+                expression{
+                env.BRANCH_NAME=='master'
+                }
+            }
             steps {
-                echo "production if in master branch"
+                sh 'docker-compose pull'
+                sh 'PROFILE=production docker-compose up -d'
+                echo "Production"
             }
         }
-    
     }
 }
