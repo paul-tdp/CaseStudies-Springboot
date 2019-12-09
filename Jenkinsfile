@@ -17,7 +17,7 @@ environment {
         }
         stage('Deploy') {
             steps {
-                    sh 'sudo docker push casestudiesnbs/spring-boot-backend:${VERSION}'
+                    sh 'docker push casestudiesnbs/spring-boot-backend:${VERSION}'
             }
         }
         stage('Testing Environment') {
