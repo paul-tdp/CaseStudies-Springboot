@@ -12,12 +12,12 @@ environment {
         stage('Build') {
             steps {
 		    sh 'mvn package -DskipTests'
-		    sh 'docker build -t="case-studies-docker/case-studies:${VERSION}" .'
+		    sh 'docker build -t="casestudiesnbs/spring-boot-backend:${VERSION}" .'
             }
         }
         stage('Deploy') {
             steps {
-                    sh 'docker push case-studies-docker/case-studies:${VERSION}'
+                    sh 'docker push casestudiesnbs/spring-boot-backend:${VERSION}'
             }
         }
         stage('Testing Environment') {
