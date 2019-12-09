@@ -2,6 +2,9 @@ pipeline {
     agent any
 environment {
     VERSION = readMavenPom().getVersion()
+    registry = "casestudiesnbs/spring-boot-backend"
+    registryCredential = "76df3ed5-c60d-4d29-b6d8-f27e213139f8"
+    dockerImage = ''
 }
     stages {
 	stage('test') {
@@ -12,13 +15,19 @@ environment {
         stage('Build') {
             steps {
 		    sh 'mvn package -DskipTests'
-		    sh 'docker build -t="casestudiesnbs/spring-boot-backend:${VERSION}" .'
+		    script {
+                     dockerImage = docker.build registry + ":$VERSION"
+             }
             }
         }
         stage('Deploy') {
-            steps {
-                    sh 'sudo docker push casestudiesnbs/spring-boot-backend:${VERSION}'
+            steps {   
+             script {
+                    docker.withRegistry( '', registryCredential ) {
+                      dockerImage.push()
             }
+}
+}
         }
         stage('Testing Environment') {
             steps {
