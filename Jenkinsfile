@@ -12,12 +12,12 @@ environment {
         stage('Build') {
             steps {
 		    sh 'mvn package -DskipTests'
-		    sh 'docker build -t="casestudiesnbs/spring-boot-backend:${VERSION}" .'
+		    sh 'sudo docker build -t="casestudiesnbs/spring-boot-backend:${VERSION}" .'
             }
         }
         stage('Deploy') {
             steps {
-                    sh 'docker push casestudiesnbs/spring-boot-backend:${VERSION}'
+                    sh 'sudo docker push casestudiesnbs/spring-boot-backend:${VERSION}'
             }
         }
         stage('Testing Environment') {
@@ -32,7 +32,7 @@ environment {
               }
           }
             steps {
-                sh 'docker-compose pull'
+                sh 'sudo docker-compose pull'
                 sh 'PROFILE=staging docker-compose up -d'
                 sh 'mvn test -Dtest=SeleniumSuite'
             }
@@ -44,8 +44,8 @@ environment {
                 }
             }
             steps {
-                sh 'docker-compose pull'
-                sh 'PROFILE=production docker-compose up -d'
+                sh 'sudo docker-compose pull'
+                sh 'PROFILE=production sudo docker-compose up -d'
                 echo "Production"
             }
         }
