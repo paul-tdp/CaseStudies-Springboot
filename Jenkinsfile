@@ -47,14 +47,9 @@ environment {
             }
         }
         stage('Production') {
-            when{
-                expression{
-                env.BRANCH_NAME=='master'
-                }
-            }
             steps {
-                sh 'sudo docker-compose pull'
-                sh 'PROFILE=production sudo docker-compose up -d'
+                sh 'sudo docker-compose down'
+                sh 'production sudo docker-compose up -d'
                 echo "Production"
             }
         }
