@@ -49,7 +49,7 @@ environment {
         stage('Production') {
             steps {
                 sh 'sudo docker-compose down'
-                sh 'production sudo docker-compose up -d'
+                sh 'sudo docker-compose up -d'
                 echo "Production started"
             }
         }
