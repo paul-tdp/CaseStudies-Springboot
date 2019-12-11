@@ -1,3 +1,3 @@
 FROM openjdk:8
-COPY target/group-spring-1.0.0.jar /
-CMD java -jar group-spring-1.0.0.jar
+COPY target/group-spring.jar /
+CMD java -jar group-spring.jar
