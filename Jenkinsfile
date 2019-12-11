@@ -53,7 +53,7 @@ environment {
                     docker.withRegistry( '', registryCredential ) {
                       dockerImage.pull()
             } 
-                sh 'sudo docker-compose up --force-recreate -d'
+                sh 'sudo docker-compose up -d'
                 echo "Production started"
             }
         }
