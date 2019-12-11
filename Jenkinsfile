@@ -50,7 +50,7 @@ environment {
             steps {
                 sh 'sudo docker-compose down'
                 sh 'production sudo docker-compose up -d'
-                echo "Production"
+                echo "Production started"
             }
         }
     }
