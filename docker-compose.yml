@@ -3,4 +3,4 @@ services:
   spring:
     image: casestudiesnbs/spring-boot-backend
     ports: 
-      - "9011:9011"
+      - "9012:9011"
